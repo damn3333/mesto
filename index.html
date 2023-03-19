@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./pages/index.css">
+  <title>Mesto</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Интерактивный проект, куда можно добавлять фотографии, удалять их и ставить лайки.">
+  <meta name="keywords" content="Mesto, интерактивный проект, фотографии, коллекция фотографий, фото, проект с фотографиями">
+  <meta name="author" content="Павел Агафонов">
+</head>
+<body class="page">
+  <div class="page__container">
+    <header class="header">
+      <div class="header__logo"></div>
+    </header>
+    <main class="content">
+      <section class="profile" aria-label="profile">
+        <div class="profile-wrapper">
+          <img class="profile__avatar" src="./images/avatar.png" alt="Аватарка, фотография Жака-Ив Кусто.">
+          <div class="profile-info">
+            <h1 class="profile-info__name">Жак-Ив Кусто</h1>
+            <div class="profile__button-edit"></div>
+            <p class="profile-info__job">Исследователь океана</p>
+          </div>
+        </div>
+        <div class="profile__button-add"></div>
+        <div class="popup">
+          <form class="popup__container">
+            <div class="popup__button-close"></div>
+            <p class="popup__title">Редактировать профиль</p>
+            <input class="popup__input" id="name" name="name" type="text" placeholder="Имя">
+            <input class="popup__input" id="job" name="job" type="text" placeholder="О себе">
+            <button class="popup__button-submit" type="submit">Сохранить</button>
+          </form>
+        </div>
+      </section>
+      <section class="photo-grid" aria-label="photo-grid">
+        <ul class="photo-grid__list">
+          <li class="photo-grid__item">
+            <img class="photo-grid__image" src="./images/karachaevsk.jpg" alt="Христианский храм в Карачаево-Черкесии. Расположен на отроге горного хребта.">
+            <div class="photo-grid__description">
+              <p class="photo-grid__text">Карачаевск</p>
+              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+            </div>
+          </li>
+          <li class="photo-grid__item">
+            <img class="photo-grid__image" src="./images/elbrus.jpg" alt="Закатный пейзаж - пустая равнина с виднеющимися горами на заднем плане.">
+            <div class="photo-grid__description">
+              <p class="photo-grid__text">Гора Эльбрус</p>
+              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+            </div>
+          </li>
+          <li class="photo-grid__item">
+            <img class="photo-grid__image" src="./images/dombai.jpg" alt="Вершины гор в пасмурную погоду, на переднем плане - хвойный лес.">
+            <div class="photo-grid__description">
+              <p class="photo-grid__text">Домбай</p>
+              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+            </div>
+          </li>
+          <li class="photo-grid__item">
+            <img class="photo-grid__image" src="./images/elbrus.jpg" alt="Закатный пейзаж - пустая равнина с виднеющимися горами на заднем плане.">
+            <div class="photo-grid__description">
+              <p class="photo-grid__text">Гора Эльбрус</p>
+              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+            </div>
+          </li>
+          <li class="photo-grid__item">
+            <img class="photo-grid__image" src="./images/dombai.jpg" alt="Вершины гор в пасмурную погоду, на переднем плане - хвойный лес.">
+            <div class="photo-grid__description">
+              <p class="photo-grid__text">Домбай</p>
+              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+            </div>
+          </li>
+          <li class="photo-grid__item">
+            <img class="photo-grid__image" src="./images/karachaevsk.jpg" alt="Христианский храм в Карачаево-Черкесии. Расположен на отроге горного хребта.">
+            <div class="photo-grid__description">
+              <p class="photo-grid__text">Карачаево-Черкесия</p>
+              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <footer class="footer">
+      <p class="footer__copyright">© 2023. Mesto Russia</p>
+    </footer>
+  </div>
+  <script src="./vendor/index.js"></script>
+</body>
+</html>
