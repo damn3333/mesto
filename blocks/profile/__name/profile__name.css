@@ -1,15 +1,16 @@
-.profile-info__name {
-  display: inline-block;
+.profile__name {
   margin: 0;
-  margin-right: 18px;
   font-size: 42px;
   font-weight: 500;
   line-height: 48px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 @media screen and (max-width: 700px) {
-    .profile-info__name {
-        margin-right: 10px;
+    .profile__name {
         font-size: 27px;
         line-height: 33px;
+        text-align: center;
       }
 }
