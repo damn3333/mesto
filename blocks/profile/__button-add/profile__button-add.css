@@ -5,6 +5,8 @@
   background-size: contain;
   background-repeat: no-repeat;
   transition: opacity 0.2s ease-in;
+  background-color: transparent;
+  border: none;
 }
 @media screen and (max-width: 700px) {
     .profile__button-add {

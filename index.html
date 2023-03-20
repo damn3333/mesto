@@ -16,67 +16,58 @@
     </header>
     <main class="content">
       <section class="profile" aria-label="profile">
-        <div class="profile-wrapper">
+        <div class="profile__wrapper">
           <img class="profile__avatar" src="./images/avatar.png" alt="Аватарка, фотография Жака-Ив Кусто.">
-          <div class="profile-info">
-            <h1 class="profile-info__name">Жак-Ив Кусто</h1>
-            <div class="profile__button-edit"></div>
-            <p class="profile-info__job">Исследователь океана</p>
+          <div class="profile__info">
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <button class="profile__button-edit" type="button" aria-label="Открыть окно редактирования профиля"></button>
+            <p class="profile__job">Исследователь океана</p>
           </div>
         </div>
-        <div class="profile__button-add"></div>
-        <div class="popup">
-          <form class="popup__container">
-            <div class="popup__button-close"></div>
-            <p class="popup__title">Редактировать профиль</p>
-            <input class="popup__input" id="name" name="name" type="text" placeholder="Имя">
-            <input class="popup__input" id="job" name="job" type="text" placeholder="О себе">
-            <button class="popup__button-submit" type="submit">Сохранить</button>
-          </form>
-        </div>
+        <button class="profile__button-add" type="button" aria-label="Добавить фотографию"></button>
       </section>
       <section class="photo-grid" aria-label="photo-grid">
         <ul class="photo-grid__list">
           <li class="photo-grid__item">
             <img class="photo-grid__image" src="./images/karachaevsk.jpg" alt="Христианский храм в Карачаево-Черкесии. Расположен на отроге горного хребта.">
             <div class="photo-grid__description">
-              <p class="photo-grid__text">Карачаевск</p>
-              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+              <h2 class="photo-grid__text">Карачаевск</h2>
+              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
             </div>
           </li>
           <li class="photo-grid__item">
             <img class="photo-grid__image" src="./images/elbrus.jpg" alt="Закатный пейзаж - пустая равнина с виднеющимися горами на заднем плане.">
             <div class="photo-grid__description">
-              <p class="photo-grid__text">Гора Эльбрус</p>
-              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+              <h2 class="photo-grid__text">Гора Эльбрус</h2>
+              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
             </div>
           </li>
           <li class="photo-grid__item">
             <img class="photo-grid__image" src="./images/dombai.jpg" alt="Вершины гор в пасмурную погоду, на переднем плане - хвойный лес.">
             <div class="photo-grid__description">
-              <p class="photo-grid__text">Домбай</p>
-              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+              <h2 class="photo-grid__text">Домбай</h2>
+              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
             </div>
           </li>
           <li class="photo-grid__item">
             <img class="photo-grid__image" src="./images/elbrus.jpg" alt="Закатный пейзаж - пустая равнина с виднеющимися горами на заднем плане.">
             <div class="photo-grid__description">
-              <p class="photo-grid__text">Гора Эльбрус</p>
-              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+              <h2 class="photo-grid__text">Гора Эльбрус</h2>
+              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
             </div>
           </li>
           <li class="photo-grid__item">
             <img class="photo-grid__image" src="./images/dombai.jpg" alt="Вершины гор в пасмурную погоду, на переднем плане - хвойный лес.">
             <div class="photo-grid__description">
-              <p class="photo-grid__text">Домбай</p>
-              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+              <h2 class="photo-grid__text">Домбай</h2>
+              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
             </div>
           </li>
           <li class="photo-grid__item">
             <img class="photo-grid__image" src="./images/karachaevsk.jpg" alt="Христианский храм в Карачаево-Черкесии. Расположен на отроге горного хребта.">
             <div class="photo-grid__description">
-              <p class="photo-grid__text">Карачаево-Черкесия</p>
-              <img class="photo-grid__like" src="./images/like.svg" alt="Лайк - прозрачное внутри изображение черного сердечка.">
+              <h2 class="photo-grid__text">Карачаево-Черкесия</h2>
+              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
             </div>
           </li>
         </ul>
@@ -85,7 +76,18 @@
     <footer class="footer">
       <p class="footer__copyright">© 2023. Mesto Russia</p>
     </footer>
+    <div class="popup">
+      <div class="popup__container">
+        <form class="popup__form" name="profile-form">
+          <h3 class="popup__title">Редактировать профиль</h3>
+          <input class="popup__input popup__input_type_name" id="name" name="name" type="text" placeholder="Имя">
+          <input class="popup__input popup__input_type_job" id="job" name="job" type="text" placeholder="О себе">
+          <button class="popup__button-submit" type="submit">Сохранить</button>
+        </form>
+        <button class="popup__button-close" type="button" aria-label="Закрыть окно редактирования профиля"></button>
+      </div>
+    </div>
   </div>
-  <script src="./vendor/index.js"></script>
+  <script src="./pages/index.js"></script>
 </body>
 </html>
