@@ -1,16 +1,18 @@
-.photo-grid__like {
-  background-image: url(../../../images/like.svg);
-  width: 22px;
+.photo-grid__delete {
+  background-image: url(../../../images/trash.svg);
+  width: 18px;
   height: 19px;
   background-color: transparent;
   border: none;
   background-size: contain;
   background-repeat: no-repeat;
   flex-shrink: 0;
-  margin-left: 10px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
   transition: opacity 0.2s ease-in;
 }
-.photo-grid__like:hover {
-  opacity: 0.5;
+.photo-grid__delete:hover {
+  opacity: 0.6;
   cursor: pointer;
 }

@@ -28,7 +28,7 @@
       </section>
       <section class="photo-grid" aria-label="photo-grid">
         <ul class="photo-grid__list">
-          <li class="photo-grid__item">
+          <!-- <li class="photo-grid__item">
             <img class="photo-grid__image" src="./images/karachaevsk.jpg" alt="Христианский храм в Карачаево-Черкесии. Расположен на отроге горного хребта.">
             <div class="photo-grid__description">
               <h2 class="photo-grid__text">Карачаевск</h2>
@@ -69,23 +69,51 @@
               <h2 class="photo-grid__text">Карачаево-Черкесия</h2>
               <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
             </div>
-          </li>
+          </li> -->
         </ul>
       </section>
+      <template id="template-card">
+        <li class="photo-grid__item">
+          <img class="photo-grid__image" alt="Изображение карточки">
+          <div class="photo-grid__description">
+            <h2 class="photo-grid__text"></h2>
+            <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
+          </div>
+          <button class="photo-grid__delete" type="button" aria-label="Удалить карточку"></button>
+        </li>
+      </template>
     </main>
     <footer class="footer">
       <p class="footer__copyright">© 2023. Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_type_profile">
       <div class="popup__container">
-        <form class="popup__form" name="profile-form">
+        <form class="popup__form" name="profile-form" id="profile-form">
           <h3 class="popup__title">Редактировать профиль</h3>
-          <input class="popup__input popup__input_type_name" id="name" name="name" type="text" placeholder="Имя">
+          <input class="popup__input popup__input_type_name" id="name" name="name" type="text" placeholder="Имя" required>
           <input class="popup__input popup__input_type_job" id="job" name="job" type="text" placeholder="О себе">
           <button class="popup__button-submit" type="submit">Сохранить</button>
         </form>
-        <button class="popup__button-close" type="button" aria-label="Закрыть окно редактирования профиля"></button>
+        <button class="popup__button-close popup__button-close_profile" type="button" aria-label="Закрыть окно редактирования профиля"></button>
       </div>
+    </div>
+    <div class="popup popup_type_add">
+      <div class="popup__container">
+        <form class="popup__form" name="add-form" id="add-form">
+          <h3 class="popup__title">Новое место</h3>
+          <input class="popup__input popup__input_type_place-title" id="place" name="place" type="text" placeholder="Название" required>
+          <input class="popup__input popup__input_type_place-link" id="link" name="link" type="url" placeholder="Ссылка на картинку" required>
+          <button class="popup__button-submit" type="submit">Создать</button>
+        </form>
+        <button class="popup__button-close popup__button-close_add" type="button" aria-label="Закрыть окно добавления нового места"></button>
+      </div>
+    </div>
+    <div class="popup popup_type_photo">
+      <figure class="popup__figure">
+        <img class="popup__image" alt="Изображение карточки">
+        <figcaption class="popup__caption"></figcaption>
+        <button class="popup__button-close popup__button-close_photo" type="button" aria-label="Закрыть окно просмотра фотографии"></button>
+      </figure>
     </div>
   </div>
   <script src="./pages/index.js"></script>
