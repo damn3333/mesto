@@ -2,7 +2,8 @@
   background-image: url(../../../images/logo.svg);
   width: 142px;
   height: 33px;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   margin-bottom: 41px;
 }
 @media screen and (max-width: 500px) {

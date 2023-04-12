@@ -28,53 +28,12 @@
       </section>
       <section class="photo-grid" aria-label="photo-grid">
         <ul class="photo-grid__list">
-          <!-- <li class="photo-grid__item">
-            <img class="photo-grid__image" src="./images/karachaevsk.jpg" alt="Христианский храм в Карачаево-Черкесии. Расположен на отроге горного хребта.">
-            <div class="photo-grid__description">
-              <h2 class="photo-grid__text">Карачаевск</h2>
-              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
-            </div>
-          </li>
-          <li class="photo-grid__item">
-            <img class="photo-grid__image" src="./images/elbrus.jpg" alt="Закатный пейзаж - пустая равнина с виднеющимися горами на заднем плане.">
-            <div class="photo-grid__description">
-              <h2 class="photo-grid__text">Гора Эльбрус</h2>
-              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
-            </div>
-          </li>
-          <li class="photo-grid__item">
-            <img class="photo-grid__image" src="./images/dombai.jpg" alt="Вершины гор в пасмурную погоду, на переднем плане - хвойный лес.">
-            <div class="photo-grid__description">
-              <h2 class="photo-grid__text">Домбай</h2>
-              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
-            </div>
-          </li>
-          <li class="photo-grid__item">
-            <img class="photo-grid__image" src="./images/elbrus.jpg" alt="Закатный пейзаж - пустая равнина с виднеющимися горами на заднем плане.">
-            <div class="photo-grid__description">
-              <h2 class="photo-grid__text">Гора Эльбрус</h2>
-              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
-            </div>
-          </li>
-          <li class="photo-grid__item">
-            <img class="photo-grid__image" src="./images/dombai.jpg" alt="Вершины гор в пасмурную погоду, на переднем плане - хвойный лес.">
-            <div class="photo-grid__description">
-              <h2 class="photo-grid__text">Домбай</h2>
-              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
-            </div>
-          </li>
-          <li class="photo-grid__item">
-            <img class="photo-grid__image" src="./images/karachaevsk.jpg" alt="Христианский храм в Карачаево-Черкесии. Расположен на отроге горного хребта.">
-            <div class="photo-grid__description">
-              <h2 class="photo-grid__text">Карачаево-Черкесия</h2>
-              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
-            </div>
-          </li> -->
+
         </ul>
       </section>
       <template id="template-card">
         <li class="photo-grid__item">
-          <img class="photo-grid__image" alt="Изображение карточки">
+          <img class="photo-grid__image">
           <div class="photo-grid__description">
             <h2 class="photo-grid__text"></h2>
             <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
@@ -109,13 +68,16 @@
       </div>
     </div>
     <div class="popup popup_type_photo">
-      <figure class="popup__figure">
-        <img class="popup__image" alt="Изображение карточки">
-        <figcaption class="popup__caption"></figcaption>
+      <div class="popup__container popup__container_type_photo">
+        <figure class="popup__figure">
+          <img class="popup__image">
+          <figcaption class="popup__caption"></figcaption>
+        </figure>
         <button class="popup__button-close popup__button-close_photo" type="button" aria-label="Закрыть окно просмотра фотографии"></button>
-      </figure>
+      </div>
     </div>
   </div>
-  <script src="./pages/index.js"></script>
+  <script src="./scripts/constants.js"></script>
+  <script src="./scripts/index.js"></script>
 </body>
 </html>
