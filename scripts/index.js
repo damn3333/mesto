@@ -10,6 +10,7 @@ const popupProfileClose = document.querySelector('.popup__button-close_profile')
 const formProfile = document.querySelector('#profile-form');
 const nameInput = formProfile.querySelector('#name');
 const jobInput = formProfile.querySelector('#job');
+const submitButtonEdit = formProfile.querySelector('.popup__button-submit');
 
 // элементы popupAdd:
 const popupAdd = document.querySelector('.popup_type_add');
@@ -17,12 +18,14 @@ const popupAddClose = document.querySelector('.popup__button-close_add');
 const formAdd = document.querySelector('#add-form');
 const placeInput = formAdd.querySelector('#place');
 const linkInput = formAdd.querySelector('#link');
+const submitButtonAdd = formAdd.querySelector('.popup__button-submit');
 
 // элементы popupPhoto:
 const popupPhoto = document.querySelector('.popup_type_photo');
 const popupPhotoClose = document.querySelector('.popup__button-close_photo');
 
 // другие элементы:
+const popupList = Array.from(document.querySelectorAll('.popup'));
 const templateCard = document.querySelector('#template-card').content;
 const cards = document.querySelector('.photo-grid__list');
 
@@ -46,32 +49,42 @@ function createCard(item) {
     document.querySelector('.popup__caption').textContent = item.name;
   });
   return cardElement;
-};
+}
 
 // объявляем функцию добавления карточки в конец
 function addAppend(card) {
   cards.append(card);
-};
+}
 
 // объявляем функцию добавления карточки в начало
 function addPrepend(card) {
   cards.prepend(card);
-};
+}
 
 // добавляем исходные карточки на страницу
 for (let i = 0; i < initialCards.length; i++) {
   addAppend(createCard(initialCards[i]));
-};
+}
 
 // объявляем функцию открытия попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-};
+  document.addEventListener('keydown', (evt) => {
+    if(evt.key === 'Escape') {
+      closePopup(popup);
+    }
+  });
+}
 
 // объявляем функцию закрытия попапов
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-};
+  document.removeEventListener('keydown', (evt) => {
+    if(evt.key === 'Escape') {
+      closePopup(popup);
+    }
+  });
+}
 
 // вешаем слушатели на кнопки закрытия попапов
 popupProfileClose.addEventListener('click', () => closePopup(popupProfile));
@@ -83,6 +96,7 @@ editProfileButton.addEventListener('click', function () {
   openPopup(popupProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+  submitButtonEdit.classList.remove('popup__button-submit_disabled');
 });
 
 // вешаем слушатель на кнопку добавления новой карточки
@@ -90,7 +104,6 @@ addPlaceButton.addEventListener('click', () => openPopup(popupAdd));
 
 // вешаем слушатель на отправку формы редактирования профиля
 formProfile.addEventListener('submit', (evt) => {
-  evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   closePopup(popupProfile);
@@ -98,9 +111,21 @@ formProfile.addEventListener('submit', (evt) => {
 
 // вешаем слушатель на отправку формы добавления новой карточки
 formAdd.addEventListener('submit', (evt) => {
-  evt.preventDefault();
   const cardInfo = { name: placeInput.value, link: linkInput.value };
   addPrepend(createCard(cardInfo));
   evt.target.reset();
+  submitButtonAdd.classList.add('popup__button-submit_disabled');
   closePopup(popupAdd);
 });
+
+// объявляем функцию закрытия попапов по клику на оверлей
+const closePopupOverlay = () => {
+  popupList.forEach( (item) => {
+    item.addEventListener('click', (evt) => {
+      closePopup(evt.target);
+    });
+  });
+};
+
+// вызываем функцию закрытия попапов по клику на оверлей
+closePopupOverlay();
