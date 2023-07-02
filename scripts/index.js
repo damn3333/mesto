@@ -4,30 +4,29 @@ import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js'
 
 // элементы секции profile:
-const editProfileButton = document.querySelector('.profile__button-edit');
-const addPlaceButton = document.querySelector('.profile__button-add');
+const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
+const buttonOpenPopupAddPlace = document.querySelector('.profile__button-add');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 
 // элементы popupProfile:
 const popupProfile = document.querySelector('.popup_type_profile');
-const popupProfileClose = document.querySelector('.popup__button-close_profile');
+const buttonClosePopupProfile = document.querySelector('.popup__button-close_profile');
 const formProfile = document.querySelector('#profile-form');
 const nameInput = formProfile.querySelector('#name');
 const jobInput = formProfile.querySelector('#job');
-const submitButtonEdit = formProfile.querySelector('.popup__button-submit');
 
 // элементы popupAdd:
 const popupAdd = document.querySelector('.popup_type_add');
-const popupAddClose = document.querySelector('.popup__button-close_add');
+const buttonClosePopupAdd = document.querySelector('.popup__button-close_add');
 const formAdd = document.querySelector('#add-form');
 const placeInput = formAdd.querySelector('#place');
 const linkInput = formAdd.querySelector('#link');
-const submitButtonAdd = formAdd.querySelector('.popup__button-submit');
+const buttonSubmitAdd = formAdd.querySelector('.popup__button-submit');
 
 // элементы popupPhoto:
 const popupPhoto = document.querySelector('.popup_type_photo');
-const popupPhotoClose = document.querySelector('.popup__button-close_photo');
+const buttonClosePopupPhoto = document.querySelector('.popup__button-close_photo');
 const popupImage = document.querySelector('.popup__image');
 const popupCaption = document.querySelector('.popup__caption');
 
@@ -46,19 +45,20 @@ const config = {
 };
 
 // вешаем слушатели на кнопки закрытия попапов
-popupProfileClose.addEventListener('click', () => closePopup(popupProfile));
-popupAddClose.addEventListener('click', () => closePopup(popupAdd));
+buttonClosePopupProfile.addEventListener('click', () => closePopup(popupProfile));
+buttonClosePopupAdd.addEventListener('click', () => closePopup(popupAdd));
 
 // вешаем слушатель на кнопку редактирования профиля
-editProfileButton.addEventListener('click', function () {
+buttonOpenPopupProfile.addEventListener('click', function () {
   openPopup(popupProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   resetError(popupProfile, config);
+  // Класс валидации должен отвечать только за валидацию формы. Т.е. валидировать введенные данные, но никак не изменять эти данные. Очистка импутов - это взаимодействие с данными формы, которого не должно быть в классе валидации. Кроме того, невозможно использовать метод класса валидации, который работает с полями формы при ее открытии. Поэтому логичнее оставить сброс ошибок (очистку полей и кнопки) как отдельную функцию вне класса.
 });
 
 // вешаем слушатель на кнопку добавления новой карточки
-addPlaceButton.addEventListener('click', () => {
+buttonOpenPopupAddPlace.addEventListener('click', () => {
   openPopup(popupAdd);
   resetError(popupAdd, config);
   placeInput.value = '';
@@ -81,7 +81,7 @@ formAdd.addEventListener('submit', (evt) => {
   cardsContainer.prepend(cardElement);
 
   evt.target.reset();
-  submitButtonAdd.classList.add('popup__button-submit_disabled');
+  buttonSubmitAdd.classList.add('popup__button-submit_disabled');
   closePopup(popupAdd);
 });
 
@@ -117,13 +117,19 @@ function closePopupEsc(evt) {
     };
   }
 
+// объявляем функцию создания экземпляра карточки
+function cardCreate(data) {
+  const card = new Card(data, '#template-card');
+  const cardElement = card.generateCard();
+  return cardElement
+}
+
 // объявляем функцию создания исходных карточек при загрузке страницы
 const renderElements = () => {
   cardsContainer.innerHTML = '';
   initialCards.forEach((item) => {
-    const card = new Card(item, '#template-card');
-    const cardElement = card.generateCard();
-    cardsContainer.append(cardElement);
+    const cardCreated = cardCreate(item);
+    cardsContainer.append(cardCreated);
   });
 };
 
@@ -155,9 +161,10 @@ const resetError = (popup, config) => {
   });
   // актуализируем заблокированное состояние кнопки сабмита по-умолчанию
   const buttonElement = popup.querySelector(config.submitButtonSelector);
+  // смотрите пояснения в строке 57
   buttonElement.classList.add(config.inactiveButtonClass);
   buttonElement.setAttribute('disabled', true);
 };
 
 // экспортируем используемые в других модулях переменные и функции
-export { config, openPopup, popupPhoto, popupImage, popupCaption, popupPhotoClose, closePopup };
+export { config, openPopup, popupPhoto, popupImage, popupCaption, buttonClosePopupPhoto, closePopup };

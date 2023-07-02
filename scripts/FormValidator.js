@@ -64,7 +64,7 @@ export class FormValidator {
     });
   };
   
-  // // объявляем основную функцию проверки валидации, которая добавляет обработчики всем формам
+  // объявляем основную функцию проверки валидации, которая добавляет обработчики всем формам
   enableValidation() {
     this._formElement.addEventListener('submit', (evt) => {
         evt.preventDefault();

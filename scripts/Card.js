@@ -1,5 +1,5 @@
 // импортируем используемые переменные и функции
-import { openPopup, popupPhoto, popupImage, popupCaption, popupPhotoClose, closePopup } from './index.js';
+import { openPopup, popupPhoto, popupImage, popupCaption, buttonClosePopupPhoto, closePopup } from './index.js';
 
 // созддаём класс карточки
 export class Card {
@@ -44,7 +44,7 @@ export class Card {
         popupCaption.textContent = this._name;
       });
   
-      popupPhotoClose.addEventListener('click', () => closePopup(popupPhoto));
+      buttonClosePopupPhoto.addEventListener('click', () => closePopup(popupPhoto));
    
     }
   
