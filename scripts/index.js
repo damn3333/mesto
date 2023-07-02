@@ -1,3 +1,8 @@
+// импортируем нужные переменные и классы из других модулей
+import { initialCards } from './constants.js';
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js'
+
 // элементы секции profile:
 const editProfileButton = document.querySelector('.profile__button-edit');
 const addPlaceButton = document.querySelector('.profile__button-add');
@@ -28,71 +33,21 @@ const popupCaption = document.querySelector('.popup__caption');
 
 // другие элементы:
 const popupList = Array.from(document.querySelectorAll('.popup'));
-const templateCard = document.querySelector('#template-card').content;
 const cardsContainer = document.querySelector('.photo-grid__list');
 
-//объявляем функцию создания карточки
-function createCard(item) {
-  const cardElement = templateCard.querySelector('.photo-grid__item').cloneNode(true);
-  cardElement.querySelector('.photo-grid__text').textContent = item.name;
-  cardElement.querySelector('.photo-grid__image').src = item.link;
-  cardElement.querySelector('.photo-grid__image').alt = item.name;
-  cardElement.querySelector('.photo-grid__like').addEventListener('click', (evt) => {
-    evt.target.classList.toggle('photo-grid__like_active');
-  });
-  const deleteButton = cardElement.querySelector('.photo-grid__delete');
-  deleteButton.addEventListener('click', function () {
-    const deleteCardElement = deleteButton.closest('.photo-grid__item');
-    deleteCardElement.remove();
-  });
-  cardElement.querySelector('.photo-grid__image').addEventListener('click', () => {
-    openPopup(popupPhoto);
-    popupImage.src = item.link;
-    popupImage.alt = item.name;
-    popupCaption.textContent = item.name;
-  });
-  return cardElement;
-}
-
-// объявляем функцию добавления карточки в конец
-function addAppend(card) {
-  cardsContainer.append(card);
-}
-
-// объявляем функцию добавления карточки в начало
-function addPrepend(card) {
-  cardsContainer.prepend(card);
-}
-
-// добавляем исходные карточки на страницу
-for (let i = 0; i < initialCards.length; i++) {
-  addAppend(createCard(initialCards[i]));
-}
-
-// объявляем функцию открытия попапов
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupEsc);
-}
-
-// объявляем функцию закрытия попапов
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupEsc);
-}
-
-// объявляем функцию закрытия попапов по кнопке Esc
-function closePopupEsc(evt) {
-  if(evt.key === 'Escape') {
-    const popupOpened = document.querySelector('.popup_opened');
-    closePopup(popupOpened);
-  };
-}
+// объявляем в переменную объект нужных классов для валидации форм
+const config = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-submit',
+  inactiveButtonClass: 'popup__button-submit_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_visible'
+};
 
 // вешаем слушатели на кнопки закрытия попапов
 popupProfileClose.addEventListener('click', () => closePopup(popupProfile));
 popupAddClose.addEventListener('click', () => closePopup(popupAdd));
-popupPhotoClose.addEventListener('click', () => closePopup(popupPhoto));
 
 // вешаем слушатель на кнопку редактирования профиля
 editProfileButton.addEventListener('click', function () {
@@ -120,11 +75,27 @@ formProfile.addEventListener('submit', () => {
 // вешаем слушатель на отправку формы добавления новой карточки
 formAdd.addEventListener('submit', (evt) => {
   const cardInfo = { name: placeInput.value, link: linkInput.value };
-  addPrepend(createCard(cardInfo));
+
+  const card = new Card(cardInfo, '#template-card');
+  const cardElement = card.generateCard();
+  cardsContainer.prepend(cardElement);
+
   evt.target.reset();
   submitButtonAdd.classList.add('popup__button-submit_disabled');
   closePopup(popupAdd);
 });
+
+// объявляем функцию открытия попапов
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEsc);
+}
+
+// объявялем функцию закрытия попапов
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEsc);
+}
 
 // объявляем функцию закрытия попапов по клику на оверлей
 const closePopupOverlay = () => {
@@ -137,3 +108,56 @@ const closePopupOverlay = () => {
 
 // вызываем функцию закрытия попапов по клику на оверлей
 closePopupOverlay();
+
+// объявляем функцию закрытия попапов по нажатию ESC
+function closePopupEsc(evt) {
+    if(evt.key === 'Escape') {
+      const popupOpened = document.querySelector('.popup_opened');
+      closePopup(popupOpened);
+    };
+  }
+
+// объявляем функцию создания исходных карточек при загрузке страницы
+const renderElements = () => {
+  cardsContainer.innerHTML = '';
+  initialCards.forEach((item) => {
+    const card = new Card(item, '#template-card');
+    const cardElement = card.generateCard();
+    cardsContainer.append(cardElement);
+  });
+};
+
+// создаём исходные карточки
+renderElements();
+
+// объявляем функцию добавления валидации всем формам (через создание новых экземпляров класса)
+const validation = () => {
+
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  formList.forEach( (item) => {
+    const form = new FormValidator(config, item);
+    form.enableValidation();
+  });
+};
+
+// вызываем функцию валидации всех форм на странице
+validation()
+
+// объявляем функцию обнуления ошибок валидации форм
+const resetError = (popup, config) => {
+  const inputList = Array.from(popup.querySelectorAll(config.inputSelector));
+  // очищаем ошибки валидации инпутов формы
+  inputList.forEach(inputElement => {
+    const errorElement = document.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.remove(config.inputErrorClass);
+    errorElement.classList.remove(config.errorClass);
+    errorElement.textContent = '';
+  });
+  // актуализируем заблокированное состояние кнопки сабмита по-умолчанию
+  const buttonElement = popup.querySelector(config.submitButtonSelector);
+  buttonElement.classList.add(config.inactiveButtonClass);
+  buttonElement.setAttribute('disabled', true);
+};
+
+// экспортируем используемые в других модулях переменные и функции
+export { config, openPopup, popupPhoto, popupImage, popupCaption, popupPhotoClose, closePopup };
