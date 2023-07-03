@@ -53,14 +53,13 @@ buttonOpenPopupProfile.addEventListener('click', function () {
   openPopup(popupProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  resetError(popupProfile, config);
-  // Класс валидации должен отвечать только за валидацию формы. Т.е. валидировать введенные данные, но никак не изменять эти данные. Очистка импутов - это взаимодействие с данными формы, которого не должно быть в классе валидации. Кроме того, невозможно использовать метод класса валидации, который работает с полями формы при ее открытии. Поэтому логичнее оставить сброс ошибок (очистку полей и кнопки) как отдельную функцию вне класса.
+  profileFormValidator.resetError();
 });
 
 // вешаем слушатель на кнопку добавления новой карточки
 buttonOpenPopupAddPlace.addEventListener('click', () => {
   openPopup(popupAdd);
-  resetError(popupAdd, config);
+  addCardFormValidator.resetError();
   placeInput.value = '';
   linkInput.value = '';
 });
@@ -136,35 +135,13 @@ const renderElements = () => {
 // создаём исходные карточки
 renderElements();
 
-// объявляем функцию добавления валидации всем формам (через создание новых экземпляров класса)
-const validation = () => {
+// создаём новый класс валидации формы редактирования профиля и включаем ее
+const profileFormValidator = new FormValidator(config, formProfile);
+profileFormValidator.enableValidation();
 
-  const formList = Array.from(document.querySelectorAll(config.formSelector));
-  formList.forEach( (item) => {
-    const form = new FormValidator(config, item);
-    form.enableValidation();
-  });
-};
-
-// вызываем функцию валидации всех форм на странице
-validation()
-
-// объявляем функцию обнуления ошибок валидации форм
-const resetError = (popup, config) => {
-  const inputList = Array.from(popup.querySelectorAll(config.inputSelector));
-  // очищаем ошибки валидации инпутов формы
-  inputList.forEach(inputElement => {
-    const errorElement = document.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove(config.inputErrorClass);
-    errorElement.classList.remove(config.errorClass);
-    errorElement.textContent = '';
-  });
-  // актуализируем заблокированное состояние кнопки сабмита по-умолчанию
-  const buttonElement = popup.querySelector(config.submitButtonSelector);
-  // смотрите пояснения в строке 57
-  buttonElement.classList.add(config.inactiveButtonClass);
-  buttonElement.setAttribute('disabled', true);
-};
+// создаём новый класс валидации формы добавления новой карточки и включаем ее
+const addCardFormValidator = new FormValidator(config, formAdd);
+addCardFormValidator.enableValidation();
 
 // экспортируем используемые в других модулях переменные и функции
 export { config, openPopup, popupPhoto, popupImage, popupCaption, buttonClosePopupPhoto, closePopup };

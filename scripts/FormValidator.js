@@ -64,6 +64,20 @@ export class FormValidator {
     });
   };
   
+  // объявляем функцию обнуления ошибок валидации формы
+  resetError() {
+    // очищаем ошибки валидации инпутов формы
+    this._inputList.forEach(inputElement => {
+      const errorElement = document.querySelector(`.${inputElement.id}-error`);
+      inputElement.classList.remove(this._config.inputErrorClass);
+      errorElement.classList.remove(this._config.errorClass);
+      errorElement.textContent = '';
+    });
+    // актуализируем заблокированное состояние кнопки сабмита по-умолчанию
+    this._buttonElement.classList.add(this._config.inactiveButtonClass);
+    this._buttonElement.setAttribute('disabled', true);
+  }
+
   // объявляем основную функцию проверки валидации, которая добавляет обработчики всем формам
   enableValidation() {
     this._formElement.addEventListener('submit', (evt) => {
