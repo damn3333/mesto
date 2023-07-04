@@ -75,12 +75,10 @@ formProfile.addEventListener('submit', () => {
 formAdd.addEventListener('submit', (evt) => {
   const cardInfo = { name: placeInput.value, link: linkInput.value };
 
-  const card = new Card(cardInfo, '#template-card');
-  const cardElement = card.generateCard();
-  cardsContainer.prepend(cardElement);
+  const cardCreated = cardCreate(cardInfo);
+  cardsContainer.prepend(cardCreated);
 
   evt.target.reset();
-  buttonSubmitAdd.classList.add('popup__button-submit_disabled');
   closePopup(popupAdd);
 });
 

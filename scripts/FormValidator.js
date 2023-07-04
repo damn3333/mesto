@@ -64,6 +64,12 @@ export class FormValidator {
     });
   };
   
+  // объявляем функцию блокировки кнопки сабмита в форме добавления новой карточки
+  _inactiveButtonSubmit() {
+    this._buttonElement.classList.add(this._config.inactiveButtonClass);
+    this._buttonElement.setAttribute('disabled', true);
+  }
+
   // объявляем функцию обнуления ошибок валидации формы
   resetError() {
     // очищаем ошибки валидации инпутов формы
@@ -74,8 +80,7 @@ export class FormValidator {
       errorElement.textContent = '';
     });
     // актуализируем заблокированное состояние кнопки сабмита по-умолчанию
-    this._buttonElement.classList.add(this._config.inactiveButtonClass);
-    this._buttonElement.setAttribute('disabled', true);
+    this._inactiveButtonSubmit();
   }
 
   // объявляем основную функцию проверки валидации, которая добавляет обработчики всем формам
