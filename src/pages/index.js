@@ -22,8 +22,6 @@ buttonOpenPopupProfile.addEventListener('click', function () {
 buttonOpenPopupAddPlace.addEventListener('click', () => {
   popupFormAdd.open();
   addCardFormValidator.resetError();
-  placeInput.value = '';
-  linkInput.value = '';
 });
 
 // объявляем функцию создания экземпляра карточки
@@ -33,15 +31,20 @@ function cardCreate(data) {
   return cardElement
 };
 
+// объявляем функцию создания экземпляра класса открытия попапа с картинкой
+function openPopupWithImage(data) {
+  const popupImage = new PopupWithImage(popupPhotoSelector, data);
+  popupImage.open();
+  popupImage.setEventListeners();
+};
+
 // объявляем хэндл для слушателя открытия попапа с картинкой
 function handleCardClick() {
   const data = {
     link: this.src,
-    name: this.alt
+    place: this.alt
   };
-  const PopupImage = new PopupWithImage(popupPhotoSelector, data);
-  PopupImage.open();
-  PopupImage.setEventListeners();
+  openPopupWithImage(data);
 };
 
 // создаём новый класс валидации формы редактирования профиля и включаем ее
@@ -54,7 +57,6 @@ addCardFormValidator.enableValidation();
 
 // экземпляр класса создания исходных карточек из массива при загрузке страницы
 const defaultCardList = new Section({
-  items: initialCards,
   renderer: (item) => {
     const cardElement = cardCreate(item);
     defaultCardList.addItem(cardElement);
@@ -62,7 +64,7 @@ const defaultCardList = new Section({
 }, cardsContainerSelector);
 
 // создаём (рендерим) карточки
-defaultCardList.renderItems();
+defaultCardList.renderItems(initialCards);
 
 // создаём экземпляр попапа с формой редактирования профиля
 const popupFormProfile = new PopupWithForm(popupProfileSelector, handleSubmitProfile);
@@ -70,7 +72,8 @@ popupFormProfile.setEventListeners();
 
 // объявляем хэндл для класса с формой профиля
 function handleSubmitProfile() {
-  userInfoDisplay.setUserInfo();
+  const inputValues = this._getInputValues();
+  userInfoDisplay.setUserInfo(inputValues);
   popupFormProfile.close();
 }
 // создаём экземпляр попапа с формой добавления нового места
@@ -79,7 +82,7 @@ popupFormAdd.setEventListeners();
 
 // объявляем хэндл для класса с формой добавления нового места
 function handleSubmitAdd() {
-  const cardInfo = { name: placeInput.value, link: linkInput.value };
+  const cardInfo = this._getInputValues();
   const cardCreated = cardCreate(cardInfo);
   cardsContainer.prepend(cardCreated);
   popupFormAdd.close();

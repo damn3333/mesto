@@ -17,7 +17,7 @@ export default class FormValidator {
   };
 
   // объявляем функцию скрытия ошибки
-  _hideInputError (inputElement) {
+  _hideInputError(inputElement) {
     const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(this._config.inputErrorClass);
     errorElement.classList.remove(this._config.errorClass);
@@ -25,7 +25,7 @@ export default class FormValidator {
   };
 
   // объявляем функцию проверки поля формы на валидность
-  _isValid (inputElement) {
+  _isValid(inputElement) {
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement);
     } else {
@@ -34,17 +34,16 @@ export default class FormValidator {
   };
 
   // объявляем функцию проверки ВСЕХ полей формы на валидность
-  _hasInvalidInput () {
+  _hasInvalidInput() {
     return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   };
 
   // объявляем функцию изменения статуса кнопки submit в зависимости от валидности ВСЕХ полей формы
-  _toggleButtonState () {
+  _toggleButtonState() {
     if (this._hasInvalidInput(this._inputList)) {
-      this._buttonElement.classList.add(this._config.inactiveButtonClass);
-      this._buttonElement.setAttribute('disabled', true);
+      this._disableSubmitButton();
     } else {
       this._buttonElement.classList.remove(this._config.inactiveButtonClass);
       this._buttonElement.removeAttribute('disabled');
@@ -52,7 +51,7 @@ export default class FormValidator {
   };
 
   // объявляем функцию, которая добавляет обработчики всем полям формы
-  _setEventListeners () {
+  _setEventListeners() {
     this._toggleButtonState();
 
     this._inputList.forEach((inputElement) => {
@@ -64,7 +63,7 @@ export default class FormValidator {
   };
 
   // объявляем функцию блокировки кнопки сабмита в форме добавления новой карточки
-  _inactiveButtonSubmit() {
+  _disableSubmitButton() {
     this._buttonElement.classList.add(this._config.inactiveButtonClass);
     this._buttonElement.setAttribute('disabled', true);
   }
@@ -73,20 +72,14 @@ export default class FormValidator {
   resetError() {
     // очищаем ошибки валидации инпутов формы
     this._inputList.forEach(inputElement => {
-      const errorElement = document.querySelector(`.${inputElement.id}-error`);
-      inputElement.classList.remove(this._config.inputErrorClass);
-      errorElement.classList.remove(this._config.errorClass);
-      errorElement.textContent = '';
+      this._hideInputError(inputElement);
     });
     // актуализируем заблокированное состояние кнопки сабмита по-умолчанию
-    this._inactiveButtonSubmit();
+    this._disableSubmitButton();
   }
 
   // объявляем основную функцию проверки валидации, которая добавляет обработчики всем формам
   enableValidation() {
-    this._formElement.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-      });
     this._setEventListeners();
   };
   }

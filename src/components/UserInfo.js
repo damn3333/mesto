@@ -1,5 +1,3 @@
-import { nameInput, jobInput } from '../utils/constants.js';
-
 // созддаём класс, который отвечает за управление отображением информации о пользователе на странице
 export default class UserInfo {
   // принимаем в конструктор селектор имени пользователя и селектор информации о себе
@@ -17,11 +15,7 @@ export default class UserInfo {
   }
 
   // публичный метод, который принимает новые данные пользователя и добавляет их на страницу
-  setUserInfo() {
-    const setInfo = {
-      name: nameInput.value,
-      job: jobInput.value
-    };
+  setUserInfo(setInfo) {
     this._profileNameSelector.textContent = setInfo.name;
     this._profileJobSelector.textContent = setInfo.job;
   }
