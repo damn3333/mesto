@@ -31,12 +31,9 @@ function cardCreate(data) {
   return cardElement
 };
 
-// объявляем функцию создания экземпляра класса открытия попапа с картинкой
-function openPopupWithImage(data) {
-  const popupImage = new PopupWithImage(popupPhotoSelector, data);
-  popupImage.open();
-  popupImage.setEventListeners();
-};
+// создаём экземпляр класса открытия попапа с картинкой
+const popupImage = new PopupWithImage(popupPhotoSelector);
+popupImage.setEventListeners();
 
 // объявляем хэндл для слушателя открытия попапа с картинкой
 function handleCardClick() {
@@ -44,7 +41,7 @@ function handleCardClick() {
     link: this.src,
     place: this.alt
   };
-  openPopupWithImage(data);
+  popupImage.open(data);
 };
 
 // создаём новый класс валидации формы редактирования профиля и включаем ее
@@ -71,8 +68,7 @@ const popupFormProfile = new PopupWithForm(popupProfileSelector, handleSubmitPro
 popupFormProfile.setEventListeners();
 
 // объявляем хэндл для класса с формой профиля
-function handleSubmitProfile() {
-  const inputValues = this._getInputValues();
+function handleSubmitProfile(inputValues) {
   userInfoDisplay.setUserInfo(inputValues);
   popupFormProfile.close();
 }
@@ -81,10 +77,9 @@ const popupFormAdd = new PopupWithForm(popupAddSelector, handleSubmitAdd);
 popupFormAdd.setEventListeners();
 
 // объявляем хэндл для класса с формой добавления нового места
-function handleSubmitAdd() {
-  const cardInfo = this._getInputValues();
+function handleSubmitAdd(cardInfo) {
   const cardCreated = cardCreate(cardInfo);
-  cardsContainer.prepend(cardCreated);
+  defaultCardList.addItem(cardCreated);
   popupFormAdd.close();
 }
 

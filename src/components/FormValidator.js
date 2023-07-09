@@ -42,7 +42,7 @@ export default class FormValidator {
 
   // объявляем функцию изменения статуса кнопки submit в зависимости от валидности ВСЕХ полей формы
   _toggleButtonState() {
-    if (this._hasInvalidInput(this._inputList)) {
+    if (this._hasInvalidInput()) {
       this._disableSubmitButton();
     } else {
       this._buttonElement.classList.remove(this._config.inactiveButtonClass);
