@@ -43,7 +43,7 @@ const aboutInput = formProfile.querySelector('#about');
 // элементы popupAdd:
 const popupAddSelector = '.popup_type_add';
 const formAdd = document.querySelector('#add-form');
-const placeInput = formAdd.querySelector('#name');
+const placeInput = formAdd.querySelector('#new-name');
 const linkInput = formAdd.querySelector('#link');
 
 // элементы popupAvatar:

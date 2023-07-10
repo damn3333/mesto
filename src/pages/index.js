@@ -109,15 +109,25 @@ popupFormAdd.setEventListeners();
 
 // объявляем хэндл для класса с формой добавления нового места
 function handleSubmitAdd(cardInfo) {
+  // т.к. в файле index.html было 2 одинаковых id (name), пришлось их переименовать, а тут создать 2 переменных, чтобы запросы работали
+  const { 'new-name': name, ...rest } = cardInfo;
+  const newCardInfo = { name, ...rest };
+
+  const newInfo = {};
+  for (let key in newCardInfo) {
+  newInfo[key] = newCardInfo[key];
+  };
+
   const buttonForm = this._popup.querySelector('.popup__button-submit');
   renderLoading(true, buttonForm, "Создать");
-  cardInfo.likes = [];
+  newCardInfo.likes = [];
+
   api.getUserInfo()
   .then(res => {
-    const cardCreated = cardCreate(cardInfo, res);
+    const cardCreated = cardCreate(newCardInfo, res);
     cardsContainer.prepend(cardCreated);
   })
-  api.createItem(cardInfo)
+  api.createItem(newInfo)
   .finally(() => {
     renderLoading(false, buttonForm, "Создать");
   });
