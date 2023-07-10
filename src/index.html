@@ -16,11 +16,12 @@
     <main class="content">
       <section class="profile" aria-label="profile">
         <div class="profile__wrapper">
-          <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватарка, фотография Жака-Ив Кусто.">
+          <img class="profile__avatar" alt="Аватарка">
+          <button class="profile__button-avatar" type="button" aria-label="Открыть окно изменения аватара"></button>
           <div class="profile__info">
-            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <h1 class="profile__name"></h1>
             <button class="profile__button-edit" type="button" aria-label="Открыть окно редактирования профиля"></button>
-            <p class="profile__job">Исследователь океана</p>
+            <p class="profile__about"></p>
           </div>
         </div>
         <button class="profile__button-add" type="button" aria-label="Добавить фотографию"></button>
@@ -35,7 +36,10 @@
           <img class="photo-grid__image">
           <div class="photo-grid__description">
             <h2 class="photo-grid__text"></h2>
-            <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
+            <div class="photo-grid__like-container">
+              <button class="photo-grid__like" type="button" aria-label="Поставить лайк"></button>
+              <span class="photo-grid__likes-number"></span>
+            </div>
           </div>
           <button class="photo-grid__delete" type="button" aria-label="Удалить карточку"></button>
         </li>
@@ -53,8 +57,8 @@
             <span class="name-error popup__input-error"></span>
           </label>
           <label class="popup__field">
-            <input class="popup__input popup__input_type_job" id="job" name="job" type="text" placeholder="О себе" required minlength="2" maxlength="200">
-            <span class="job-error popup__input-error"></span>
+            <input class="popup__input popup__input_type_about" id="about" name="about" type="text" placeholder="О себе" required minlength="2" maxlength="200">
+            <span class="about-error popup__input-error"></span>
           </label>
           <button class="popup__button-submit" type="submit">Сохранить</button>
         </form>
@@ -66,8 +70,8 @@
         <form class="popup__form" name="add-form" id="add-form" novalidate>
           <h3 class="popup__title">Новое место</h3>
           <label class="popup__field">
-            <input class="popup__input popup__input_type_place-title" id="place" name="place" type="text" placeholder="Название" required minlength="2" maxlength="30">
-            <span class="place-error popup__input-error"></span>
+            <input class="popup__input popup__input_type_place-title" id="name" name="name" type="text" placeholder="Название" required minlength="2" maxlength="30">
+            <span class="name-error popup__input-error"></span>
           </label>
           <label class="popup__field">
             <input class="popup__input popup__input_type_place-link" id="link" name="link" type="url" placeholder="Ссылка на картинку" required>
@@ -85,6 +89,27 @@
           <figcaption class="popup__caption"></figcaption>
         </figure>
         <button class="popup__button-close popup__button-close_photo" type="button" aria-label="Закрыть окно просмотра фотографии"></button>
+      </div>
+    </div>
+    <div class="popup popup_type_avatar">
+      <div class="popup__container">
+        <form class="popup__form" name="avatar-form" id="avatar-form" novalidate>
+          <h3 class="popup__title">Обновить аватар</h3>
+          <label class="popup__field">
+            <input class="popup__input popup__input_type_avatar" id="avatar" name="avatar" type="url" placeholder="Ссылка на фотографию" required>
+            <span class="avatar-error popup__input-error"></span>
+          </label>
+          <button class="popup__button-submit" type="submit">Сохранить</button>
+        </form>
+        <button class="popup__button-close popup__button-close_avatar" type="button"
+            aria-label="Закрыть окно изменения аватара"></button>
+      </div>
+    </div>
+    <div class="popup popup_type_confirmation">
+      <div class="popup__container">
+        <h3 class="popup__title popup__title_type_confirmation">Вы уверены?</h3>
+        <button class="popup__button-confirmation" type="submit">Да</button>
+        <button class="popup__button-close popup__button-close_confirmation" type="button" aria-label="Закрыть окно подтверждения"></button>
       </div>
     </div>
   </div>

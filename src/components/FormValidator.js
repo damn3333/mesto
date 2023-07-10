@@ -62,7 +62,7 @@ export default class FormValidator {
     });
   };
 
-  // объявляем функцию блокировки кнопки сабмита в форме добавления новой карточки
+  // объявляем функцию блокировки кнопки сабмита
   _disableSubmitButton() {
     this._buttonElement.classList.add(this._config.inactiveButtonClass);
     this._buttonElement.setAttribute('disabled', true);

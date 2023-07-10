@@ -1,51 +1,61 @@
 // исходный массив карточек
 const initialCards = [
   {
-    place: 'Архыз',
+    name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
   },
   {
-    place: 'Челябинская область',
+    name: 'Челябинская область',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
   },
   {
-    place: 'Иваново',
+    name: 'Иваново',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
   },
   {
-    place: 'Камчатка',
+    name: 'Камчатка',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
   },
   {
-    place: 'Холмогорский район',
+    name: 'Холмогорский район',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
   },
   {
-    place: 'Байкал',
+    name: 'Байкал',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
 
 // элементы секции profile:
 const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
+const buttonOpenPopupAvatar = document.querySelector('.profile__button-avatar');
 const buttonOpenPopupAddPlace = document.querySelector('.profile__button-add');
+const avatarImage = document.querySelector('.profile__avatar');
 const profileNameSelector = '.profile__name';
-const profileJobSelector = '.profile__job';
+const profileAboutSelector = '.profile__about';
 
 // элементы popupProfile:
 const popupProfileSelector = '.popup_type_profile';
 const formProfile = document.querySelector('#profile-form');
 const nameInput = formProfile.querySelector('#name');
-const jobInput = formProfile.querySelector('#job');
+const aboutInput = formProfile.querySelector('#about');
 
 // элементы popupAdd:
 const popupAddSelector = '.popup_type_add';
 const formAdd = document.querySelector('#add-form');
-const placeInput = formAdd.querySelector('#place');
+const placeInput = formAdd.querySelector('#name');
 const linkInput = formAdd.querySelector('#link');
+
+// элементы popupAvatar:
+const popupAvatarSelector = '.popup_type_avatar';
+const formAvatar = document.querySelector('#avatar-form');
+const avatarInput = formAvatar.querySelector('#avatar');
 
 // элементы popupPhoto:
 const popupPhotoSelector = '.popup_type_photo';
+
+// элементы popupConfirmation:
+const popupConfirmationSelector = '.popup_type_confirmation';
 
 // другие элементы:
 const cardsContainer = document.querySelector('.photo-grid__list');
@@ -61,4 +71,4 @@ const config = {
   errorClass: 'popup__input-error_visible'
 };
 
-export { initialCards, buttonOpenPopupProfile, buttonOpenPopupAddPlace, profileNameSelector, profileJobSelector, popupProfileSelector, formProfile, nameInput, jobInput, popupAddSelector, formAdd, placeInput, linkInput, popupPhotoSelector, cardsContainer, cardsContainerSelector, config };
+export { initialCards, buttonOpenPopupProfile, buttonOpenPopupAddPlace, profileNameSelector, profileAboutSelector, popupProfileSelector, formProfile, nameInput, aboutInput, popupAddSelector, formAdd, placeInput, linkInput, popupPhotoSelector, cardsContainer, cardsContainerSelector, config, popupAvatarSelector, formAvatar, avatarInput, buttonOpenPopupAvatar, popupConfirmationSelector, avatarImage };
