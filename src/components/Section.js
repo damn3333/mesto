@@ -13,8 +13,8 @@ export default class Section {
     });
   }
 
-  // публичный метод, который принимает DOM-элемент и добавляет его в контейнер
+   // публичный метод, который принимает DOM-элемент и добавляет его в контейнер
   addItem(itemHtml) {
-    this._container.prepend(itemHtml);
+    this._container.append(itemHtml);
   }
 }

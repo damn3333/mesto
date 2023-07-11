@@ -4,21 +4,20 @@ export default class Api {
     this.headers = headers;
   }
 
+ _getResponseData(res) {
+  if (!res.ok) {
+        return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+ }
+
 // 1. Загрузка информации о пользователе с сервера
   getUserInfo() {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'GET',
       headers: this.headers
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject('Что-то пошло не так!');
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(res => this._getResponseData(res))
   }
 
 // 2. Загрузка карточек с сервера
@@ -27,15 +26,7 @@ export default class Api {
       method: 'GET',
       headers: this.headers
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject('Что-то пошло не так!')
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(res => this._getResponseData(res))
   }
 
 // 3. Редактирование профиля
@@ -48,15 +39,7 @@ export default class Api {
     }),
       headers: this.headers
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject('Что-то пошло не так!')
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(res => this._getResponseData(res))
   }
 
 // 4. Добавление новой карточки
@@ -69,15 +52,7 @@ export default class Api {
     }),
       headers: this.headers
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject('Что-то пошло не так!')
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(res => this._getResponseData(res))
   }
 
 // 5. Удаление карточки
@@ -86,15 +61,6 @@ export default class Api {
       method: 'DELETE',
       headers: this.headers
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject('Что-то пошло не так!')
-    })
-    .catch((err) => {
-      console.log(err);
-    });
   }
 
 // 6. Установка лайка
@@ -103,15 +69,6 @@ export default class Api {
       method: 'PUT',
       headers: this.headers
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject('Что-то пошло не так!')
-    })
-    .catch((err) => {
-      console.log(err);
-    });
   }
 
 // 7. Удаление лайка
@@ -120,15 +77,6 @@ export default class Api {
       method: 'DELETE',
       headers: this.headers
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject('Что-то пошло не так!')
-    })
-    .catch((err) => {
-      console.log(err);
-    });
   }
 
   // 8. Обновление аватара пользователя
@@ -140,15 +88,7 @@ export default class Api {
     }),
       headers: this.headers
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject('Что-то пошло не так!')
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(res => this._getResponseData(res))
   }
 
   // 9. Загрузка всей необходимой информации

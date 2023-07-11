@@ -7,6 +7,7 @@ export default class Card {
     this._likes = data.likes;
     this._idCard = data._id;
     this._idUser = userInfo._id;
+    this._idCardOwner = data.owner._id;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleLike = handleLike;
@@ -27,12 +28,12 @@ export default class Card {
   }
 
   // приватный метод уставноки количества лайков для карточки с сервера
-  _setLikeNumber() {
-    this._likesNumber.textContent = this._likes.length;
+  setLikeNumber(likesArray) {
+    this._likesNumber.textContent = likesArray.length;
   }
 
-  // приватный метод удаления карточки
-  _deleteCardElement() {
+  // метод удаления карточки
+  deleteCardElement() {
     this._element.remove();
     this._element = null;
   }
@@ -44,6 +45,13 @@ export default class Card {
       this._buttonLike.classList.add('photo-grid__like_active');
     }
    }
+  }
+
+  // приватный метод определения владельца карточки
+  _detectWhoIsCardOwner() {
+  if (this._idCardOwner !== this._idUser) {
+    this._element.querySelector('.photo-grid__delete').remove();
+    };
   }
 
   // устанавливаем слушатели событий на элементы карточки
@@ -65,8 +73,9 @@ export default class Card {
     this._cardText.textContent = this._name;
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
-    this._setLikeNumber();
+    this.setLikeNumber(this._likes);
     this._isLike();
+    this._detectWhoIsCardOwner();
     return this._element;
   }
 }

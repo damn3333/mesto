@@ -30,9 +30,9 @@ const initialCards = [
 const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
 const buttonOpenPopupAvatar = document.querySelector('.profile__button-avatar');
 const buttonOpenPopupAddPlace = document.querySelector('.profile__button-add');
-const avatarImage = document.querySelector('.profile__avatar');
 const profileNameSelector = '.profile__name';
 const profileAboutSelector = '.profile__about';
+const profileAvatarSelector = '.profile__avatar';
 
 // элементы popupProfile:
 const popupProfileSelector = '.popup_type_profile';
@@ -71,4 +71,4 @@ const config = {
   errorClass: 'popup__input-error_visible'
 };
 
-export { initialCards, buttonOpenPopupProfile, buttonOpenPopupAddPlace, profileNameSelector, profileAboutSelector, popupProfileSelector, formProfile, nameInput, aboutInput, popupAddSelector, formAdd, placeInput, linkInput, popupPhotoSelector, cardsContainer, cardsContainerSelector, config, popupAvatarSelector, formAvatar, avatarInput, buttonOpenPopupAvatar, popupConfirmationSelector, avatarImage };
+export { initialCards, buttonOpenPopupProfile, buttonOpenPopupAddPlace, profileNameSelector, profileAboutSelector, popupProfileSelector, formProfile, nameInput, aboutInput, popupAddSelector, formAdd, placeInput, linkInput, popupPhotoSelector, cardsContainer, cardsContainerSelector, config, popupAvatarSelector, formAvatar, avatarInput, buttonOpenPopupAvatar, popupConfirmationSelector, profileAvatarSelector };

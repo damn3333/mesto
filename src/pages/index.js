@@ -1,7 +1,7 @@
 import './index.css';
 
 // импортируем нужные переменные и классы из других модулей
-import { buttonOpenPopupProfile, buttonOpenPopupAddPlace, profileNameSelector, profileAboutSelector, popupProfileSelector, formProfile, nameInput, aboutInput, popupAddSelector, formAdd, popupPhotoSelector, cardsContainer, cardsContainerSelector, config, popupAvatarSelector, formAvatar, buttonOpenPopupAvatar, popupConfirmationSelector, avatarImage } from '../utils/constants.js';
+import { buttonOpenPopupProfile, buttonOpenPopupAddPlace, profileNameSelector, profileAboutSelector, popupProfileSelector, formProfile, nameInput, aboutInput, popupAddSelector, formAdd, popupPhotoSelector, cardsContainer, cardsContainerSelector, config, popupAvatarSelector, formAvatar, buttonOpenPopupAvatar, popupConfirmationSelector, profileAvatarSelector } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
@@ -18,12 +18,6 @@ buttonOpenPopupProfile.addEventListener('click', function () {
   nameInput.value = profileInfo.name;
   aboutInput.value = profileInfo.about;
   profileFormValidator.resetError();
-});
-
-// вешаем слушатель на кнопку добавления новой карточки
-buttonOpenPopupAddPlace.addEventListener('click', () => {
-  popupFormAdd.open();
-  addCardFormValidator.resetError();
 });
 
 // объявляем функцию создания экземпляра карточки
@@ -48,18 +42,30 @@ function handleCardClick() {
 
 // объявляем динамический хэндл для слушателя лайка
 function handleLike() {
-  let likes = this._likesNumber.textContent;
-  let likesNumber = Number(likes);
   if (this._buttonLike.classList.contains('photo-grid__like_active')) {
-    this._buttonLike.classList.remove('photo-grid__like_active');
-    likes = (likesNumber -= 1);
-    this._likesNumber.textContent = likes;
-    api.deleteLike(this._idCard);
+    api.deleteLike(this._idCard)
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then(res => {
+      this._buttonLike.classList.remove('photo-grid__like_active');
+      this.setLikeNumber(res.likes);
+    })
+    .catch(err => console.log(`Ошибка.....: ${err}`));
   } else {
-    this._buttonLike.classList.add('photo-grid__like_active');
-    likes = (likesNumber += 1);
-    this._likesNumber.textContent = likes;
-    api.setLike(this._idCard);
+    api.setLike(this._idCard)
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then(res => {
+      this._buttonLike.classList.add('photo-grid__like_active');
+      this.setLikeNumber(res.likes);
+    })
+    .catch(err => console.log(`Ошибка.....: ${err}`));
   }
 };
 
@@ -70,9 +76,15 @@ function handleDeleteClick() {
   popupConfirmation.open();
 
   function handleSubmitConfirmation() {
-    card.remove();
-    api.deleteItem(idCard);
-    popupConfirmation.close();
+    api.deleteItem(idCard)
+    .then(res => {
+      if (res.ok) {
+        // оставил тут прямой метод, потому что не могу связать this карточки и попапа (при вызове метода из Card возникает ошибка)
+        card.remove();
+        popupConfirmation.close();
+      }
+    })
+    .catch(err => console.log(`Ошибка.....: ${err}`));
   };
 
   popupConfirmation.setEventListeners(handleSubmitConfirmation);
@@ -91,51 +103,23 @@ const popupFormProfile = new PopupWithForm(popupProfileSelector, handleSubmitPro
 popupFormProfile.setEventListeners();
 
 // объявляем хэндл для класса с формой профиля
-function handleSubmitProfile() {
+function handleSubmitProfile(inputValues) {
   const buttonForm = this._popup.querySelector('.popup__button-submit');
   renderLoading(true, buttonForm, "Сохранить");
-  const inputValues = this._getInputValues();
-  userInfoDisplay.setUserInfo(inputValues);
+
   api.editProfile(inputValues)
+  .then(profileInfo => {
+    userInfoDisplay.setUserInfo(profileInfo);
+    popupFormProfile.close();
+  })
+  .catch(err => console.log(`Ошибка.....: ${err}`))
   .finally(() => {
     renderLoading(false, buttonForm, "Сохранить");
   });
-  popupFormProfile.close();
-}
-
-// создаём экземпляр попапа с формой добавления нового места
-const popupFormAdd = new PopupWithForm(popupAddSelector, handleSubmitAdd);
-popupFormAdd.setEventListeners();
-
-// объявляем хэндл для класса с формой добавления нового места
-function handleSubmitAdd(cardInfo) {
-  // т.к. в файле index.html было 2 одинаковых id (name), пришлось их переименовать, а тут создать 2 переменных, чтобы запросы работали
-  const { 'new-name': name, ...rest } = cardInfo;
-  const newCardInfo = { name, ...rest };
-
-  const newInfo = {};
-  for (let key in newCardInfo) {
-  newInfo[key] = newCardInfo[key];
-  };
-
-  const buttonForm = this._popup.querySelector('.popup__button-submit');
-  renderLoading(true, buttonForm, "Создать");
-  newCardInfo.likes = [];
-
-  api.getUserInfo()
-  .then(res => {
-    const cardCreated = cardCreate(newCardInfo, res);
-    cardsContainer.prepend(cardCreated);
-  })
-  api.createItem(newInfo)
-  .finally(() => {
-    renderLoading(false, buttonForm, "Создать");
-  });
-  popupFormAdd.close();
 }
 
 // создаём класс с информацией о пользователе
-const userInfoDisplay = new UserInfo({ profileNameSelector, profileAboutSelector });
+const userInfoDisplay = new UserInfo({ profileNameSelector, profileAboutSelector, profileAvatarSelector });
 
 // вешаем слушатель на кнопку изменения аватара
 buttonOpenPopupAvatar.addEventListener('click', function () {
@@ -148,16 +132,18 @@ const popupFormAvatar = new PopupWithForm(popupAvatarSelector, handleSubmitAvata
 popupFormAvatar.setEventListeners();
 
 // объявляем хэндл для класса с формой изменения аватара
-function handleSubmitAvatar() {
+function handleSubmitAvatar(inputValues) {
   const buttonForm = this._popup.querySelector('.popup__button-submit');
   renderLoading(true, buttonForm, "Сохранить");
-  const inputValues = this._getInputValues();
-  avatarImage.src = inputValues.avatar;
   api.updateAvatar(inputValues)
+  .then(profileInfo => {
+    userInfoDisplay.setAvatar(profileInfo);
+    popupFormAvatar.close();
+  })
+  .catch(err => console.log(`Ошибка.....: ${err}`))
   .finally(() => {
     renderLoading(false, buttonForm, "Сохранить");
   });
-  popupFormAvatar.close();
 }
 
 // создаём новый класс валидации формы изменения аватара и включаем ее
@@ -166,6 +152,15 @@ avatarFormValidator.enableValidation();
 
 // создаём класс с попапом подтверждения
 const popupConfirmation = new PopupWithConfirmation(popupConfirmationSelector);
+
+// объявляем функцию прелоудера (ожидания загрузки с сервера)
+function renderLoading(isLoading, buttonForm, text) {
+  if (isLoading) {
+    buttonForm.textContent = "Сохранение...";
+  } else {
+    buttonForm.textContent = text;
+  }
+};
 
 // создаём экземпляр класса для работы с сервером
 const api = new Api({
@@ -179,29 +174,50 @@ const api = new Api({
 // вызываем метод класса Api и создаем исходные карточки с сервера в нём через класс отрисовки Section
 api.getAllNeededData()
 .then((data) => {
-  const [ cardsInfo, userInfo ] = data;
-  avatarImage.src = userInfo.avatar;
+  const [cardsInfo, userInfo] = data;
+  userInfoDisplay.setAvatar(userInfo);
 
   const defaultCardList = new Section({
     renderer: (item) => {
-      const card = new Card(item, userInfo, '#template-card', handleCardClick, handleLike, handleDeleteClick);
-      const cardElement = card.generateCard();
-      if (item.owner._id !== userInfo._id) {
-        cardElement.querySelector('.photo-grid__delete').remove();
-      };
-      defaultCardList.addItem(cardElement);
+      const cardCreated = cardCreate(item, userInfo);
+      defaultCardList.addItem(cardCreated);
     }
   }, cardsContainerSelector);
 
   defaultCardList.renderItems(cardsInfo);
   userInfoDisplay.setUserInfo(userInfo);
-});
+  return data
+})
+.then(data => {
 
-// объявляем функцию прелоудера (ожидания загрузки с сервера)
-function renderLoading(isLoading, buttonForm, text) {
-  if (isLoading) {
-    buttonForm.textContent = "Сохранение...";
-  } else {
-    buttonForm.textContent = text;
-  }
-};
+  // вешаем слушатель на кнопку добавления новой карточки
+buttonOpenPopupAddPlace.addEventListener('click', () => {
+  popupFormAdd.open();
+  addCardFormValidator.resetError();
+});
+  // создаём экземпляр попапа с формой добавления нового места
+const popupFormAdd = new PopupWithForm(popupAddSelector, handleSubmitAdd);
+popupFormAdd.setEventListeners();
+
+// объявляем хэндл для класса с формой добавления нового места
+function handleSubmitAdd(inputValues) {
+  const { 'new-name': name, ...rest } = inputValues;
+  const newCardInfo = { name, ...rest };
+  const userInfo = data[1];
+  const buttonForm = this._popup.querySelector('.popup__button-submit');
+  renderLoading(true, buttonForm, "Создать");
+
+  api.createItem(newCardInfo)
+    .then(data => {
+      const cardCreated = cardCreate(data, userInfo);
+      // использовать метод Section здесь не могу, т.к. он вне области видимости then
+      cardsContainer.prepend(cardCreated);
+      popupFormAdd.close();
+  })
+  .catch(err => console.log(`Ошибка.....: ${err}`))
+  .finally(() => {
+    renderLoading(false, buttonForm, "Создать");
+  });
+}
+})
+.catch(err => console.log(`Ошибка.....: ${err}`))
